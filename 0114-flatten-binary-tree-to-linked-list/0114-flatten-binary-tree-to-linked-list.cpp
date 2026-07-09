@@ -11,31 +11,23 @@
  */
 class Solution {
 public:
-//ITERATIVE USING STACK
-// TC O(N) SC=O(N)
+//THIRD APPROACH=> USE MORRIS TRAVERSAL CONCEPT OF POINTERS
+//ACCESS RIGHMOST NODE OF LEFT SUUBTREE
+// CONNECT THAT WITH THE RECENT POINTER
     void flatten(TreeNode* root) {
-        stack<TreeNode*>st;
-       
-        if(root!=nullptr){
-        st.push(root);
-        }
-        while(!st.empty()){
-            TreeNode* node=st.top();
-            st.pop();
-            //I need to access left one node first
-            if(node->right){
-                 st.push(node->right);
+        TreeNode* curr=root;
+        while(curr!=nullptr){
+            //i need to process left one
+            if(curr->left!=nullptr){
+                TreeNode* prev=curr->left;
+                while(prev->right){
+                    prev=prev->right;
+                }
+                prev->right=curr->right;
+                curr->right=curr->left;
+                curr->left=nullptr;
             }
-            if(node->left){
-                 st.push(node->left);
-            }
-            if(!st.empty()){
-            node->right=st.top();
-            }
-            else{
-            node->right=nullptr;
-            }
-         node->left=nullptr;
-        }    
+            curr=curr->right;
+        }        
     }
 };
