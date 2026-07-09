@@ -1,5 +1,5 @@
 /**
- * Definition for a binary tree root.
+ * Definition for a binary tree node.
  * struct TreeNode {
  *     int val;
  *     TreeNode *left;
@@ -11,19 +11,31 @@
  */
 class Solution {
 public:
- //first approach: recursive
-TreeNode* prev=nullptr;
-    void flatten(TreeNode* root) 
-    {
-       if(root==nullptr){
-        return ;
-       }
-       flatten(root->right);
-       flatten(root->left);
-
-       root->right=prev;
-       root->left=nullptr;
-       prev=root;
+//ITERATIVE USING STACK
+// TC O(N) SC=O(N)
+    void flatten(TreeNode* root) {
+        stack<TreeNode*>st;
+       
+        if(root!=nullptr){
+        st.push(root);
+        }
+        while(!st.empty()){
+            TreeNode* node=st.top();
+            st.pop();
+            //I need to access left one node first
+            if(node->right){
+                 st.push(node->right);
+            }
+            if(node->left){
+                 st.push(node->left);
+            }
+            if(!st.empty()){
+            node->right=st.top();
+            }
+            else{
+            node->right=nullptr;
+            }
+         node->left=nullptr;
+        }    
     }
-   
 };
