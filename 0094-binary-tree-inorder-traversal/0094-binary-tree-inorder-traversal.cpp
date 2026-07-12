@@ -10,37 +10,34 @@
  * };
  */
 class Solution {
-public: 
-//USING MORRIS TRAVERSAL
-    vector<int> inorderTraversal(TreeNode* root) 
-    {
-        TreeNode* curr=root;
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        //CONCEPT OF NODE=NULL->MEANS LEFT PART IS NULL SO MOVE TO THE ROOT PART AND THEN RIGHT
+        //CONCEPT OF NODE!=NULL->MEANS LEFT PART IS NOT NULL HENCE MOVE TO THE LEFT PART UNTIL IT BECOMES NULL AND THEN WE MOVE TO THE FIRST CASE
+        //tc=o(n) sc=o(1)
         vector<int>inorder;
-       
-        while(curr!=nullptr){
-            //CASE1- WHEN LEFT PART IS NULL , WE MOVE TO RIGHT
-            if(curr->left==nullptr){
-            inorder.push_back(curr->val);
-            curr=curr->right;
-            }else{
-            TreeNode* prev=curr->left;
-            while(prev->right && prev->right!=curr){
-                prev=prev->right;
+        if(root==nullptr)
+        return inorder;
+        stack<TreeNode*>st;
+        TreeNode* node=root;
+      
+        while(true){
+            if(node!=nullptr){
+                st.push(node);
+                node=node->left;
             }
-            //CREATE A THREAD
-            if(prev->right==nullptr){
-                prev->right=curr;
-                curr=curr->left;
-
-            //REMOVE THE THREAD
-            }else if(prev->right==curr){
-                prev->right=nullptr; 
-                inorder.push_back(curr->val);
-                curr=curr->right;
-            }
+            else{
+                if(st.empty()){
+                    break;
+                }
+                node=st.top();
+                st.pop();
+                inorder.push_back(node->val);
+                node=node->right;
             }
         }
         return inorder;
+        
         
     }
 };
