@@ -19,10 +19,9 @@ public:
      vector<int> twoSum(vector<int>& nums, int target) 
      {
         unordered_map<int,int>mpp;
-        int complement;
         int n=nums.size();
         for(int i=0;i<n;i++){
-            complement=target-nums[i];
+            int complement=target-nums[i];
         if(mpp.find(complement)!=mpp.end()){
             return {mpp[complement], i};
         }
