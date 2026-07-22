@@ -13,20 +13,20 @@ class Solution {
 public:
 int i=0;
     TreeNode* bstFromPreorder(vector<int>& preorder) {
-        return solve(preorder,INT_MIN,INT_MAX);
+        return solve(preorder,INT_MAX);
     }
-    TreeNode* solve(vector<int>& preorder,int low, int high){
+    TreeNode* solve(vector<int>& preorder, int high){
         if(i==preorder.size()){
             return nullptr;
         }
-        if(low>preorder[i] || preorder[i]>high){
+        if(preorder[i]>high){
             return nullptr;
         }
         TreeNode* root=new TreeNode(preorder[i]);
         i++;
 
-        root->left=solve(preorder,low,root->val);
-        root->right=solve(preorder,root->val,high);
+        root->left=solve(preorder,root->val);
+        root->right=solve(preorder,high);
 
         return root;
 
