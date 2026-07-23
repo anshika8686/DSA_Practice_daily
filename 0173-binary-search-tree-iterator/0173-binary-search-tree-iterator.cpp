@@ -26,10 +26,7 @@ public:
     }
     
     bool hasNext() {
-        if(!st.empty()){
-            return true;
-        }
-        return false;    
+        return (!st.empty());  
     }
 
     void pushAll(TreeNode* root){
