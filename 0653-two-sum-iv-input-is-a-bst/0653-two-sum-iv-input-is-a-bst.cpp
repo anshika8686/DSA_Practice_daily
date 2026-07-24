@@ -9,32 +9,56 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+
+class BSTIterator{
+    // reverse->true= before
+    // reverse->false=next
+    stack<TreeNode*>st;
+    bool reverse=false;
+    public:
+    BSTIterator(TreeNode* root,int isreverse){
+        reverse=isreverse;
+        pushAll(root,reverse);
+    }
+    void pushAll(TreeNode* root,bool reverse){
+        while(root!=nullptr){
+            st.push(root);
+            root=reverse?root->right:root->left;
+            //reverse=>true->(root->right) BEFORE
+            //reverse=>false->(root->left) NEXT
+        }
+    }
+    int next(){
+        TreeNode* topnode=st.top();
+        st.pop();
+        if (reverse && topnode->left){
+            pushAll(topnode->left,reverse); 
+        } 
+        else if(!reverse && topnode->right){
+            pushAll(topnode->right,reverse);
+        }
+        return topnode->val;
+    }
+};
+
 class Solution {
 public:
+
     bool findTarget(TreeNode* root, int k) {
-        vector<int>inorder;
-        findinorder(root,inorder);
-        int n=inorder.size();
-        int l=0,r=n-1;
-        while(l<r){
-            if (inorder[l]+inorder[r]==k){
-                return true;
-            }
-            else if (inorder[l]+inorder[r]>k){
-                r--;
-            }
-            else{
-                l++;
-            }
-        }
+        if(!root)
         return false;
-    }
-    void findinorder(TreeNode* root, vector<int>&inorder){
-        if (root==nullptr){
-            return;
-        }
-        findinorder(root->left,inorder);
-        inorder.push_back(root->val);
-        findinorder(root->right,inorder);
+//creating object
+BSTIterator l(root,false); //obj objname(parameters)
+BSTIterator r(root,true);
+
+int i=l.next();
+int j=r.next();
+
+while(i<j){
+if(i+j==k) return true;
+else if (i+j>k) j=r.next();
+else i=l.next();
+}
+return false;   
     }
 };
