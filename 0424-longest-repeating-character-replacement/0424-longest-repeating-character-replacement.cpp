@@ -5,8 +5,8 @@ public:
       int left=0;
       int maxFreq=0,ans=0;
       int n=s.size();
-      map<char,int>freq;
-      for(int right=0;right<n;right++){
+      unordered_map<char,int>freq;
+      for(int right=0;right<n;right++){ 
         freq[s[right]]++;
         maxFreq=max(maxFreq,freq[s[right]]);
         while((right-left+1)-maxFreq>k){
