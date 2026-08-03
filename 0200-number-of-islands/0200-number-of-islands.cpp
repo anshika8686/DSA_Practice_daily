@@ -12,7 +12,7 @@ public:
             for(int col=0;col<m;col++){
                 if(grid[row][col]=='1' && !vis[row][col]){
                     count++;
-                    bfs(row,col,vis,grid,n,m);
+                    dfs(row,col,vis,grid,n,m);
                 }
 
             }
@@ -20,50 +20,50 @@ public:
         return count;
         
     }
-    void bfs(int row,int col,vector<vector<int>>&vis,vector<vector<char>>& grid,int n,int m){
-        vis[row][col]=1;
-        queue<pair<int,int>>q;
-        q.push({row,col});
-        while(!q.empty()){
-            int row=q.front().first;
-            int col=q.front().second;
-            q.pop();
-
-            int delrow[4]={0,-1,0,+1};
-            int delcol[4]={-1,0,+1,0};
-            for(int k=0;k<4;k++){
-                int nrow=row+delrow[k];
-                int ncol=col+delcol[k];
-
-                if(nrow>=0 && nrow<n && 
-                ncol>=0 && ncol<m && 
-                grid[nrow][ncol]=='1' &&
-                !vis[nrow][ncol]){
-                    q.push({nrow,ncol});
-                    vis[nrow][ncol]=1;
-                }
-            }
-        }
-
-    }
-
-    // void dfs(int row,int col,vector<vector<int>>&vis,vector<vector<char>>& grid,,int n,int m)
-    // {
+    // void bfs(int row,int col,vector<vector<int>>&vis,vector<vector<char>>& grid,int n,int m){
     //     vis[row][col]=1;
-    //     int delrow=[0,-1,0,+1];
-    //     int delcol=[-1,0,+1,0];
-    //     for(int k=0;k<4;k++){
+    //     queue<pair<int,int>>q;
+    //     q.push({row,col});
+    //     while(!q.empty()){
+    //         int row=q.front().first;
+    //         int col=q.front().second;
+    //         q.pop();
+
+    //         int delrow[4]={0,-1,0,+1};
+    //         int delcol[4]={-1,0,+1,0};
+    //         for(int k=0;k<4;k++){
     //             int nrow=row+delrow[k];
     //             int ncol=col+delcol[k];
 
-    //          if(nrow>=0 && nrow<n && 
+    //             if(nrow>=0 && nrow<n && 
     //             ncol>=0 && ncol<m && 
     //             grid[nrow][ncol]=='1' &&
-    //             !vis[nrow][ncol])
-    //             {
+    //             !vis[nrow][ncol]){
+    //                 q.push({nrow,ncol});
     //                 vis[nrow][ncol]=1;
-    //                 dfs({nrow,ncol,vis,grid,n,m});
     //             }
     //         }
     //     }
+
+    // }
+
+    void dfs(int row,int col,vector<vector<int>>&vis,vector<vector<char>>& grid,int n,int m)
+    {
+        vis[row][col]=1;
+        int delcol[4]={-1,0,+1,0};
+        int delrow[4]={0,-1,0,+1};
+        for(int k=0;k<4;k++){
+                int nrow=row+delrow[k];
+                int ncol=col+delcol[k];
+
+             if(nrow>=0 && nrow<n && 
+                ncol>=0 && ncol<m && 
+                grid[nrow][ncol]=='1' &&
+                !vis[nrow][ncol])
+                {
+                    vis[nrow][ncol]=1;
+                    dfs(nrow,ncol,vis,grid,n,m);
+                }
+            }
+        }
 };
