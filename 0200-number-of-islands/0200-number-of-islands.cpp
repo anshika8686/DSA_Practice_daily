@@ -6,15 +6,14 @@ public:
         int count=0;
         int n=grid.size();
         int m=grid[0].size();
-        vector<vector<int>>vis(n,vector<int>(m,0));
+    
 
         for(int row=0;row<n;row++){
             for(int col=0;col<m;col++){
-                if(grid[row][col]=='1' && !vis[row][col]){
+                if(grid[row][col]=='1'){
                     count++;
-                    dfs(row,col,vis,grid,n,m);
+                    dfs(row,col,grid,n,m);
                 }
-
             }
         }
         return count;
@@ -47,9 +46,9 @@ public:
 
     // }
 
-    void dfs(int row,int col,vector<vector<int>>&vis,vector<vector<char>>& grid,int n,int m)
+    void dfs(int row,int col,vector<vector<char>>& grid,int n,int m)
     {
-        vis[row][col]=1;
+        grid[row][col]='0';
         int delcol[4]={-1,0,+1,0};
         int delrow[4]={0,-1,0,+1};
         for(int k=0;k<4;k++){
@@ -58,11 +57,9 @@ public:
 
              if(nrow>=0 && nrow<n && 
                 ncol>=0 && ncol<m && 
-                grid[nrow][ncol]=='1' &&
-                !vis[nrow][ncol])
+                grid[nrow][ncol]=='1')
                 {
-                    vis[nrow][ncol]=1;
-                    dfs(nrow,ncol,vis,grid,n,m);
+                    dfs(nrow,ncol,grid,n,m);
                 }
             }
         }
