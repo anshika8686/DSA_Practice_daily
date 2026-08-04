@@ -8,7 +8,7 @@ public:
         dfs(image,sr,sc,color,orgColor,vis,n,m);
         return image; 
     }
-    void dfs(vector<vector<int>>& image, int sr, int sc, int color,int orgColor,vector<vector<int>>vis,int n,int m){
+    void dfs(vector<vector<int>>& image, int sr, int sc, int color,int orgColor,vector<vector<int>>&vis,int n,int m){
         vis[sr][sc]=1;
         image[sr][sc]=color;
         int delrow[4]={0,-1,0,+1};
