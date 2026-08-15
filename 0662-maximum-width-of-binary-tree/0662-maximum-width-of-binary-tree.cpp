@@ -12,33 +12,37 @@
 class Solution {
 public:
     int widthOfBinaryTree(TreeNode* root) {
-        queue<pair<TreeNode*,int>>q;
-        unsigned long long start,last;
-        int max_width=INT_MIN;
-        //starting with 1
-        q.push({root,1});//node,current_index
+        if(root==nullptr) return 0;
+        queue<pair<TreeNode*,long long>>q; //node,index
+        long long maxWidth=0;
+        long long first_index, last_index;
+        q.push({root,0});
         while(!q.empty()){
             int size=q.size();
-            unsigned long long min_index=q.front().second;// access min indexof every level
+            long long minIndex=q.front().second;
+            for(int i=0;i<size;i++)
+            {
+            TreeNode* node=q.front().first;
+            long long index=q.front().second;
+            q.pop();
 
-            for(int i=0;i<size;i++){
-                TreeNode* node=q.front().first;
-                unsigned long long index=q.front().second;
-                unsigned long long curr_index=index-min_index;
-                q.pop();
-                
-                if(i==0) start=curr_index;
-                if(i==size-1) last=curr_index;
+             index=index-minIndex;
 
-                if(node->left)
-                q.push({node->left,2*curr_index+1});
-
-                if(node->right)
-                q.push({node->right,2*curr_index+2});
+            if(i==0){
+                first_index=index;
             }
-            max_width=max(max_width,(int)(last-start+1));
+            if(i==size-1){
+                last_index=index;
+            }
+            if(node->left){
+                q.push({node->left,2*index+1});
+            }
+            if(node->right){
+                q.push({node->right,2*index+2});
+            }
         }
-        return max_width;
-        
+        maxWidth=max(maxWidth,last_index-first_index+1);    
+    }
+    return (int)maxWidth;
     }
 };
