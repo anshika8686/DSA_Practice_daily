@@ -1,66 +1,37 @@
 class Solution {
 public:
-    int numIslands(vector<vector<char>>& grid)
+int delrow[4]={0,-1,0,+1};
+int delcol[4]={-1,0,+1,0};
+    int numIslands(vector<vector<char>>& grid) 
     {
-        //islands->connected components
+        int m=grid.size();
+        int n=grid[0].size();
         int count=0;
-        int n=grid.size();
-        int m=grid[0].size();
-    
-
-        for(int row=0;row<n;row++){
-            for(int col=0;col<m;col++){
-                if(grid[row][col]=='1'){
+        vector<vector<int>>vis(m,vector<int>(n,0));
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j]=='1' && !vis[i][j]){
+                    vis[i][j]=1;
+                    dfs(i,j,vis,grid,m,n);
                     count++;
-                    dfs(row,col,grid,n,m);
                 }
             }
-        }
-        return count;
-        
+        }  
+        return count;  
     }
-    // void bfs(int row,int col,vector<vector<int>>&vis,vector<vector<char>>& grid,int n,int m){
-    //     vis[row][col]=1;
-    //     queue<pair<int,int>>q;
-    //     q.push({row,col});
-    //     while(!q.empty()){
-    //         int row=q.front().first;
-    //         int col=q.front().second;
-    //         q.pop();
+    void dfs(int row,int col,vector<vector<int>>&vis,vector<vector<char>>& grid,int m,int n){
+        for(int i=0;i<4;i++){
+            int nrow=delrow[i]+row;
+            int ncol=delcol[i]+col;
 
-    //         int delrow[4]={0,-1,0,+1};
-    //         int delcol[4]={-1,0,+1,0};
-    //         for(int k=0;k<4;k++){
-    //             int nrow=row+delrow[k];
-    //             int ncol=col+delcol[k];
-
-    //             if(nrow>=0 && nrow<n && 
-    //             ncol>=0 && ncol<m && 
-    //             grid[nrow][ncol]=='1' &&
-    //             !vis[nrow][ncol]){
-    //                 q.push({nrow,ncol});
-    //                 vis[nrow][ncol]=1;
-    //             }
-    //         }
-    //     }
-
-    // }
-
-    void dfs(int row,int col,vector<vector<char>>& grid,int n,int m)
-    {
-        grid[row][col]='0';
-        int delcol[4]={-1,0,+1,0};
-        int delrow[4]={0,-1,0,+1};
-        for(int k=0;k<4;k++){
-                int nrow=row+delrow[k];
-                int ncol=col+delcol[k];
-
-             if(nrow>=0 && nrow<n && 
-                ncol>=0 && ncol<m && 
-                grid[nrow][ncol]=='1')
-                {
-                    dfs(nrow,ncol,grid,n,m);
-                }
+            if(nrow>=0 && nrow<m && 
+            ncol>=0 && ncol<n && 
+            grid[nrow][ncol]=='1' && 
+            !vis[nrow][ncol])
+            {
+                vis[nrow][ncol]=1;
+                dfs(nrow,ncol,vis,grid,m,n);
             }
         }
+    }
 };
