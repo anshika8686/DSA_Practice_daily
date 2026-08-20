@@ -7,28 +7,26 @@ public:
         for(int i=0;i<V;i++){
             if(!vis[i])
             {
-            queue<int>q;
-            q.push(i);
-            color[i]=0;
-             vis[i]=1;
-
-           while(!q.empty()){
-            int node=q.front();
-            q.pop();
-        
-        for(auto it:graph[node]){
-                int c=color[node]==0?1:0;
-                if(color[it]==-1 && !vis[it]){
-                    color[it]=c;
-                    vis[it]=1;
-                    q.push(it);
-                }
-                else if(vis[it] && color[it]==color[node])
+                color[i]=0;
+                if(dfs(i,graph,vis,color)==false)
                 return false;
             }
         }
+        return true;
     }
-}  
-    return true;
+    bool dfs(int node,vector<vector<int>>& graph,vector<int>&vis,vector<int>&color){
+        vis[node]=1;
+        int c=color[node]==0?1:0;
+        for(auto it:graph[node]){
+            if(!vis[it] && color[it]==-1)
+            {
+                color[it]=c;
+                if(!dfs(it,graph,vis,color)) return false;
+            }
+            else if(color[node]==color[it]){ //it is vis and same colour as neighbouring one
+                return false;
+            }
+        }
+        return true;
     }
 };
