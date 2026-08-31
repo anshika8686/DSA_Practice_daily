@@ -8,8 +8,8 @@ public:
         }
         q.push({beginWord,1});
         while(!q.empty()){
-            int size=q.size();
-            for(int i=0;i<size;i++){
+            // int size=q.size();
+            // for(int i=0;i<size;i++){
                 string word=q.front().first;
                 int index=q.front().second;
                 q.pop();
@@ -31,8 +31,6 @@ public:
                     }
                     temp[i]=original;
                 }
-
-            }
         }
         return 0;     
     }
