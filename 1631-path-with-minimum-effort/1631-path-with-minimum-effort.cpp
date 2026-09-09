@@ -17,6 +17,10 @@ public:
             int col=st.begin()->second.second;
             st.erase({currEffort,{row,col}});
 
+            if(row==n-1 && col==m-1){
+                return currEffort;
+            }
+
             for(int i=0;i<4;i++){
                 int nrow=row+delrow[i];
                 int ncol=col+delcol[i];
@@ -35,6 +39,6 @@ public:
                 }
             }
         }
-        return dist[n-1][m-1];   
+        return -1;   
     }
 };
