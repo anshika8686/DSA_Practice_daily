@@ -2,43 +2,37 @@ class Solution {
 public:
     vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
         int V=graph.size();
-        vector<int>vis(V,0);
-        vector<int>pathVis(V,0);
-        vector<int>safe(V,0);
-        vector<int>ans;
-        bool flag;
-
+        vector<vector<int>>adjList(V);
+        vector<int>indegree(V,0);
+        queue<int>q;
+        vector<int>safeNode;
+        //Reverse adj List
+          for(int i=0;i<V;i++){ //contains index
+          for(auto node:graph[i]){
+            adjList[node].push_back(i);
+            indegree[i]++;
+          }
+        }
         for(int i=0;i<V;i++){
-            if(!vis[i]){
-                if(dfs(i,vis,pathVis,safe,graph)==true)
-                flag=true;
-            }
-        }  
-        for(int i=0;i<V;i++){
-            if(safe[i]==1){
-                ans.push_back(i);
-            }
-        } 
-        return ans;
-    }
-    bool dfs(int node,vector<int>&vis,vector<int>&pathVis,vector<int>&safe,vector<vector<int>>& graph){
-        vis[node]=1;
-        pathVis[node]=1;
-
-        for(auto neighbour:graph[node]){
-            if(!vis[neighbour]){
-                if(dfs(neighbour,vis,pathVis,safe,graph)==false)
-                {safe[node]=0;
-                return false; 
-                } 
-            }
-            else if(vis[neighbour] && pathVis[neighbour]){
-                safe[node]=0;
-                return false; //not safe  
+            if(indegree[i]==0){
+                q.push(i);
+                
             }
         }
-        pathVis[node]=0;
-        safe[node]=1;
-        return true;
+        while(!q.empty()){
+            int node=q.front();
+            q.pop();
+            safeNode.push_back(node);
+
+            for(auto neighbour:adjList[node]){
+                indegree[neighbour]--;
+                if(indegree[neighbour]==0){
+                    q.push(neighbour);
+                }
+            }
+
+        }
+        sort(safeNode.begin(),safeNode.end());    
+        return safeNode;
     }
 };
