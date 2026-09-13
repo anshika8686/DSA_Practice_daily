@@ -1,42 +1,44 @@
 class Solution {
 public:
-
-    vector<int> eventualSafeNodes(vector<vector<int>>& graph) 
-    {
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
         int V=graph.size();
-        vector<int>pathVis(V,0);
         vector<int>vis(V,0);
-        vector<int>check(V,0);
-        bool flag=true;
-        vector<int>safeNode;
-        
+        vector<int>pathVis(V,0);
+        vector<int>safe(V,0);
+        vector<int>ans;
+        bool flag;
+
         for(int i=0;i<V;i++){
             if(!vis[i]){
-                if(dfs(i,vis,pathVis,graph,check)==false)
-                flag=false;
+                if(dfs(i,vis,pathVis,safe,graph)==true)
+                flag=true;
             }
-        }
+        }  
         for(int i=0;i<V;i++){
-            if(check[i]==1){
-                safeNode.push_back(i);
+            if(safe[i]==1){
+                ans.push_back(i);
             }
-        }
-        return safeNode;
+        } 
+        return ans;
     }
-    bool dfs(int node,vector<int>&vis,vector<int>&pathVis,vector<vector<int>>& graph,vector<int>&check){
+    bool dfs(int node,vector<int>&vis,vector<int>&pathVis,vector<int>&safe,vector<vector<int>>& graph){
         vis[node]=1;
         pathVis[node]=1;
+
         for(auto neighbour:graph[node]){
-                if(!vis[neighbour]){ //not a part of cycle
-                if(dfs(neighbour,vis,pathVis,graph,check)==true)
-                return true;
+            if(!vis[neighbour]){
+                if(dfs(neighbour,vis,pathVis,safe,graph)==false)
+                {safe[node]=0;
+                return false; 
+                } 
             }
-            else if(pathVis[neighbour]==1){ //part of cycle
-                return true;
+            else if(vis[neighbour] && pathVis[neighbour]){
+                safe[node]=0;
+                return false; //not safe  
             }
         }
-        check[node]=1;//safenodes
         pathVis[node]=0;
-        return false;
+        safe[node]=1;
+        return true;
     }
 };
