@@ -6,7 +6,7 @@ public:
         priority_queue<pair<int,int>, vector<pair<int,int>>,greater<pair<int,int>>> pq; //time,node
         vector<int>dist(n+1,1e9);
         int max_Dist=0;
-        for(auto time:times){
+        for(const auto & time:times){
             int u=time[0];
             int v=time[1];
             int w=time[2];
@@ -21,7 +21,7 @@ public:
 
             if(time>dist[node]) continue;
 
-            for(auto neighbour:adjList[node]){
+            for(const auto& neighbour:adjList[node]){
                 int v=neighbour.first;
                 int w=neighbour.second;
                 if(dist[v]>dist[node]+w){
