@@ -19,6 +19,8 @@ public:
             int node=pq.top().second;
             pq.pop();
 
+            if(time>dist[node]) continue;
+
             for(auto neighbour:adjList[node]){
                 int v=neighbour.first;
                 int w=neighbour.second;
