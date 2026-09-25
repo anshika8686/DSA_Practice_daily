@@ -41,7 +41,7 @@ vector<int>rank;
             used.insert(col);
         }
         //total stones-no of components
-        for(auto it:used){//o(2*stones.size())
+        for(const auto &it:used){//o(2*stones.size())
             components.insert(findPar(it,parent));
         }
         return stones.size()-components.size();
