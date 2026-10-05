@@ -1,18 +1,12 @@
 class Solution {
 public:
     int climbStairs(int n) {
-        vector<int>dp(n+1,-1); //stores the precomputed result
-        int count=compute(n,dp);
-        return count;
-        
-    }
-    int compute(int index,vector<int>&dp){
-        if(index==0) return 1; 
-        if(index==1) return 1;
-        if(dp[index]!=-1) return dp[index];
-
-        return dp[index]=compute(index-1,dp)+compute(index-2,dp);
-
-
+        int prev=1,prev1=1,curr=1;
+        for(int i=2;i<=n;i++){
+             curr=prev+prev1;
+             prev=prev1;
+             prev1=curr;
+        }
+        return curr;
     }
 };
