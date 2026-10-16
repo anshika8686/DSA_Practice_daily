@@ -1,13 +1,15 @@
 class Solution {
 public:
     int uniquePaths(int m, int n) {
-        vector<int> dp(n, 1); // Initialize the first row with 1s
+        vector<int> prev(n, 1); // Initialize the first row with 1s
         
         for (int i = 1; i < m; i++) {
+            vector<int>curr(n,1);
             for (int j = 1; j < n; j++) {
-                dp[j] += dp[j - 1]; // dp[j] (from above) + dp[j-1] (from left)
+                 curr[j]=curr[j-1]+prev[j];
             }
+            prev=curr;
         }
-        return dp[n - 1];
+        return prev[n - 1];
     }
 };
