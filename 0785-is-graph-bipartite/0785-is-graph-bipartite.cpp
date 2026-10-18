@@ -1,30 +1,37 @@
 class Solution {
 public:
     bool isBipartite(vector<vector<int>>& graph) {
-        int V=graph.size();
-        vector<int>vis(V,0);
-        vector<int>color(V,-1);
-        for(int i=0;i<V;i++){
-            if(!vis[i])
-            {
+        int n=graph.size();
+        vector<int>vis(n+1,0);
+        vector<int>color(n+1,-1);
+    
+        for(int i=0;i<n;i++){
+            if(!vis[i]){
                 color[i]=0;
-                if(dfs(i,graph,vis,color)==false)
+                if(bfs(i,vis,color,graph)==false)
                 return false;
             }
         }
-        return true;
+         return true;
     }
-    bool dfs(int node,vector<vector<int>>& graph,vector<int>&vis,vector<int>&color){
-        vis[node]=1;
-        int c=color[node]==0?1:0;
-        for(auto it:graph[node]){
-            if(!vis[it] && color[it]==-1)
-            {
-                color[it]=c;
-                if(!dfs(it,graph,vis,color)) return false;
-            }
-            else if(color[node]==color[it]){ //it is vis and same colour as neighbouring one
-                return false;
+    bool bfs(int i, vector<int>&vis, vector<int>&color, vector<vector<int>>&graph)
+        {
+        queue<int>q;
+        q.push(i);
+        vis[i]=1;
+        while(!q.empty()){
+            int node=q.front();
+            q.pop();
+
+            for(auto it:graph[node]){
+                if(!vis[it] && color[it]==-1){
+                    color[it]=!color[node];
+                    vis[it]=1;
+                    q.push(it);
+                } 
+                else if(color[node]==color[it]){
+                    return false;
+                }
             }
         }
         return true;
